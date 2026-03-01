@@ -1,5 +1,5 @@
 <template>
     <div> 
-        <img src="/images/logo.png"> 
+        <img src="/images/PRAVIA.png" > 
     </div> 
 </template>
