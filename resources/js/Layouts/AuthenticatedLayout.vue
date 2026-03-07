@@ -23,8 +23,7 @@ const showingNavigationDropdown = ref(false);
                             <!-- Logo -->
                             <div class="flex shrink-0 items-center">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationLogo
-                                        class="block w-24"
+                                    <ApplicationLogo class="block w-24"
                                     />
                                 </Link>
                             </div>
@@ -37,7 +36,7 @@ const showingNavigationDropdown = ref(false);
                                     :href="route('dashboard')"
                                     :active="route().current('dashboard')"
                                 >
-                                    Dashboard
+                                    NEXORA
                                 </NavLink>
                                 <NavLink
                                     :href="route('items.index')"
@@ -150,7 +149,7 @@ const showingNavigationDropdown = ref(false);
                             :href="route('dashboard')"
                             :active="route().current('dashboard')"
                         >
-                            Dashboard
+                            NEXORA
                         </ResponsiveNavLink>
                         <NavLink
                             :href="route('items.index')"
