@@ -2,43 +2,43 @@
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
     import { Head } from '@inertiajs/vue3';
     import { useForm } from '@inertiajs/vue3'
+    import { router } from '@inertiajs/vue3'
 
-    const form = useForm({
-        name: null,
-        memo: null,
-        price: null
+    const props = defineProps({
+        item: Object
     })
 
-    const storeItem = () => {
-        form.post('/items', {
-            onSuccess: () => {
-                form.reset()
-            }
-        })
-    }
+    const form = useForm({
+        id: props.item.id,
+        name: props.item.name,
+        memo: props.item.memo,
+        price: props.item.price,
+        is_selling: props.item.is_selling
+    })
 
+    const updateItem = () => {
+        form.put(route('items.update', form.id))
+    }
 </script>
 
 <template>
-    <Head title="商品登録" />
+    <Head title="商品編集" />
 
     <AuthenticatedLayout>
         <template #header>
             <h2
                 class="text-xl font-semibold leading-tight text-gray-800"
             >
-                商品登録
+                商品編集
             </h2>
         </template>
 
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div
-                    class="overflow-hidden bg-white shadow-sm sm:rounded-lg"
-                >
+                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <section class="text-gray-600 body-font relative">
-                            <form @submit.prevent="storeItem">
+                            <form @submit.prevent="updateItem">
                                 <div class="container px-5 py-8 mx-auto">
                                     <div class="lg:w-1/2 md:w-2/3 mx-auto">
                                         <div class="flex flex-wrap -m-2">
@@ -70,8 +70,26 @@
                                                 </div>
                                             </div>
                                             <div class="p-2 w-full">
+                                                <div class="relative">
+                                                    <label class="block mb-2 text-sm font-medium text-gray-700">
+                                                        ステータス
+                                                    </label>
+                                                    <div class="flex items-center gap-6">
+                                                        <label class="flex items-center">
+                                                            <input type="radio" name="is_selling" v-model="form.is_selling" :value="1" class="mr-2">
+                                                            販売中
+                                                        </label>
+                                                        <label class="flex items-center">
+                                                            <input type="radio" name="is_selling" v-model="form.is_selling" :value="0" class="mr-2">
+                                                            停止中
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                
+                                            <div class="p-2 w-full">
                                                 <button :disabled="form.processing" class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 hover:bg-indigo-600 rounded text-lg">
-                                                    登録
+                                                    更新
                                                 </button>
                                             </div>
                                         </div>
