@@ -1,25 +1,23 @@
 <script setup>
     import { usePage } from '@inertiajs/vue3'
-    import { ref, onMounted } from 'vue'
+    import { ref, computed, onMounted } from 'vue'
 
     const page = usePage()
-
     const visible = ref(true)
 
+    const alertClass = computed(() => {
+        return page.props.flash.status === 'success'
+            ? 'bg-green-500'
+            : 'bg-red-500'
+    })
+
     onMounted(() => {
-        if (page.props.flash?.message) {
-            setTimeout(() => {
-                visible.value = false
-            }, 3000) // 3秒
-        }
+        setTimeout(() => visible.value = false, 3000)
     })
 </script>
 
 <template>
-    <div
-        v-if="visible && page.props.flash?.message"
-        class="bg-green-500 text-white p-4 mb-4 rounded"
-    >
+    <div v-if="visible && page.props.flash?.message":class="['text-white p-4 mb-4 rounded', alertClass]">
         {{ page.props.flash.message }}
     </div>
 </template>

@@ -108,6 +108,9 @@ class ItemController extends Controller
         $item->delete(); // ← SoftDeleteになる
 
         return redirect()->route('items.index')
-        ->with('message', '商品を削除しました');
+        ->with([
+            'message' => '削除しました。',
+            'status' => 'danger'
+        ]);
     }
 }
