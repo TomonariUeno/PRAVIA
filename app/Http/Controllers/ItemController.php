@@ -15,7 +15,9 @@ class ItemController extends Controller
     public function index()
     {
         //
-        $items = Item::select('id','name','price','is_selling')->get();
+        $items = Item::select('id','name','price','is_selling')
+        ->latest()
+        ->get();
         return Inertia::render('Items/Index',['items' => $items]);
     }
 
@@ -34,11 +36,12 @@ class ItemController extends Controller
     public function store(StoreItemRequest $request)
     {
         //
-        Item::create([
-            'name' => $request->name,
-            'memo' => $request->memo,
-            'price' => $request->price,
-        ]);
+        // Item::create([
+        //     'name' => $request->name,
+        //     'memo' => $request->memo,
+        //     'price' => $request->price,
+        // ]);
+        Item::create($request->validated());
 
         return to_route('items.index')
         ->with([
@@ -86,11 +89,12 @@ class ItemController extends Controller
     public function update(UpdateItemRequest $request, Item $item)
     {
         // dd($item->name, $request->name);
-        $item->name = $request->name;
-        $item->memo = $request->memo;
-        $item->price = $request->price;
-        $item->is_selling = $request->is_selling;
-        $item->save();
+        // $item->name = $request->name;
+        // $item->memo = $request->memo;
+        // $item->price = $request->price;
+        // $item->is_selling = $request->is_selling;
+        // $item->save();
+        $item->update($request->validated());
 
         return to_route('items.index')
         ->with([

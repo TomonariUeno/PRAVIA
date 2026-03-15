@@ -2,15 +2,16 @@
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
     import { Head, Link } from '@inertiajs/vue3';
     import { nl2br } from '@/common'
+    import { router } from '@inertiajs/vue3'
 
     defineProps({
         item: Object
     })
 
-    const deleteItem = id => {
-        Inertia.delete(route('items.destroy', { item: id }), {
-            onBefore: () => confirm('本当に削除しますか?')
-        })
+    const deleteItem = (id) => {
+        if (!confirm('本当に削除しますか?')) return
+
+        router.delete(route('items.destroy', { item: id }))
     }
 
 </script>
@@ -62,9 +63,9 @@
                                         <div class="p-2 w-full">
                                             <div class="relative">
                                                 <label for="status" class="leading-7 text-sm text-gray-600">商品価格</label>
-                                                <div id="status" class="w-ful bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                                <div id="status" class="w-full bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                                     <span v-if="item.is_selling === 1">販売中</span>
-                                                    <span v-if="item.is_selling === 0">停止中</span>
+                                                    <span v-else>停止中</span>
                                                 </div>
                                             </div>
                                         </div>
