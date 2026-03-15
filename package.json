@@ -20,6 +20,7 @@
         "vue": "^3.4.0"
     },
     "dependencies": {
-        "@inertiajs/core": "^2.3.17"
+        "@inertiajs/core": "^2.3.17",
+        "micromodal": "^0.6.1"
     }
 }

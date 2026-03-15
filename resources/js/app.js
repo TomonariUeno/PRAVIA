@@ -1,5 +1,7 @@
-import '../css/app.css';
 import './bootstrap';
+import './micromodal';
+import '../css/app.css';
+import '../css/micromodal.css';
 
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
