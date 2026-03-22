@@ -42,6 +42,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('purchases.create')" :active="route().current('purchases.create')">
                                     顧客管理
                                 </NavLink>
+                                <NavLink :href="route('applists.index')" :active="route().current('applists.index')">
+                                    App台帳
+                                </NavLink>
                             </div>
                         </div>
 
@@ -154,6 +157,9 @@ const showingNavigationDropdown = ref(false);
                         </NavLink>
                         <NavLink :href="route('purchases.create')" :active="route().current('purchases.create')">
                             顧客管理
+                        </NavLink>
+                        <NavLink :href="route('applists.index')" :active="route().current('applists.index')">
+                            App台帳
                         </NavLink>
                     </div>
 

@@ -6,13 +6,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Traits\HasUuid;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes; 
+    use HasFactory, Notifiable, SoftDeletes, HasUuid; 
 
     /**
      * The attributes that are mass assignable.
@@ -34,7 +34,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'uuid'
     ];
 
     /**
@@ -56,18 +55,6 @@ class User extends Authenticatable
     public function getRouteKeyName()
     {
         return 'uuid';
-    }
-
-    /**
-     * UUID自動生成
-     */
-    protected static function booted()
-    {
-        static::creating(function ($model) {
-            if (empty($model->uuid)) {
-                $model->uuid = (string) Str::uuid();
-            }
-        });
     }
 
     

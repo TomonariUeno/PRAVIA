@@ -19,11 +19,12 @@ return new class extends Migration
             $table->string('pasj_id')->nullable();
             $table->string('system_map_no')->nullable();
             $table->string('legal_entity')->nullable();
-            $table->string('pas_use')->nullable();
-            $table->string('pits_use')->nullable();
-            $table->string('pce_use')->nullable();
+            $table->integer('pas_use')->nullable();
+            $table->integer('pits_use')->nullable();
+            $table->integer('pce_use')->nullable();
             $table->string('app_name')->nullable();
             $table->string('app_description')->nullable();
+            $table->string('app_local_name')->nullable();
             $table->string('app_type')->nullable();
             $table->string('resource_type')->nullable();
             $table->string('hosting_type')->nullable();
@@ -87,7 +88,7 @@ return new class extends Migration
             $table->string('insert_program')->nullable();
             $table->date('update_date')->nullable();
             $table->string('update_user')->nullable();
-            $table->string('insert_program')->nullable();
+            $table->string('update_program')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
