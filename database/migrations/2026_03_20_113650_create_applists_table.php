@@ -63,7 +63,7 @@ return new class extends Migration
             $table->string('ams_vendor_pas_recognition')->nullable();
             $table->string('rfp_send_vendor')->nullable();
             $table->string('rfp_send_vendor2')->nullable();
-            $table->string('rfp_send_vendor3')->nullable();
+            $table->string('ams_vendor_phd_recognition')->nullable();
             $table->integer('rfp_type')->nullable();
             $table->integer('submission')->nullable();
             $table->integer('quote_reception')->nullable();
@@ -83,6 +83,8 @@ return new class extends Migration
             $table->integer('approval_app_submission')->nullable();
             $table->integer('charter_approval_status')->nullable();
             $table->integer('contracting')->nullable();
+            $table->date('project_start_date')->nullable();
+            $table->integer('project_kickoff')->nullable();
             $table->date('insert_date')->nullable();
             $table->string('insert_user')->nullable();
             $table->string('insert_program')->nullable();
