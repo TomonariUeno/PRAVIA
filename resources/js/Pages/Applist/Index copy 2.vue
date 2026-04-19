@@ -23,15 +23,15 @@
         app_type: props.filters.app_type ?? '',
         resource_type: props.filters.resource_type ?? '',
         hosting_type: props.filters.hosting_type ?? '',
-        tsa_exit_disposition: props.filters.tsa_exit_disposition ?? [],
+        tsa_exit_disposition: props.filters.tsa_exit_disposition ?? '',
         app_classification: props.filters.app_classification ?? '',
-        wave_type: props.filters.wave_type ?? [],
+        wave_type: props.filters.wave_type ?? '',
         wavex_judgement: props.filters.wavex_judgement ?? '',
         business_process_area: props.filters.business_process_area ?? '',
         person_in_charge: props.filters.person_in_charge ?? '',
         person_in_charge2: props.filters.person_in_charge2 ?? '',
         person_in_charge3: props.filters.person_in_charge3 ?? '',
-        sa_policy: props.filters.sa_policy ?? [],
+        sa_policy: props.filters.sa_policy ?? '',
         sa_policy_detail: props.filters.sa_policy_detail ?? '',
         transfer_method: props.filters.transfer_method ?? '',
         brownfield_migration_destination: props.filters.brownfield_migration_destination ?? '',
@@ -88,8 +88,8 @@
 
     // カラム定義（全項目）
     const columns = ref([
-        { key: 'id', label: 'ID', fixed: true, left: 0, width: 80 , visible: true},
-        { key: 'pasj_id', label: 'PASJ ID', fixed: true, left: 80, width: 120, visible: true },
+        { key: 'id', label: 'ID', visible: true, fixed: true, left: 0 },
+        { key: 'pasj_id', label: 'PASJ ID', visible: true, fixed: true, left: 80 },
         { key: 'system_map_no', label: 'System Map No', visible: true},
         { key: 'legal_entity', label: 'Legal Entity', visible: true },
         { key: 'pas_use', label: 'PAS', visible: true },
@@ -228,26 +228,6 @@
         { value: '0', label: 'Not Required'},
     ];
 
-    const pasUse = [
-        { value: '0', label: '✕'},
-        { value: '1', label: '〇'}
-    ];
-
-    const pitsUse = [
-        { value: '0', label: '✕'},
-        { value: '1', label: '〇'}
-    ];
-
-    const pceUse = [
-        { value: '0', label: '✕'},
-        { value: '1', label: '〇'}
-    ];
-
-    const waveX = [
-        { value: '0', label: '✕'},
-        { value: '1', label: '〇'}
-    ];
-
     const hostingTypes = [
         { value: '0', label: 'Dedicated'},
         { value: '1', label: 'Shared' },
@@ -372,41 +352,6 @@
         { value: '16', label: 'manufacturing_直轄基幹系' },
         { value: '17', label: 'manufacturing_直轄現場系' },
     ];
-
-    const getLabel = (key, value) => {
-
-        const maps = {
-            app_type: appTypes,
-            pas_use: pasUse,
-            pits_use: pitsUse,
-            pce_use: pceUse,
-            hosting_type: hostingTypes,
-            resource_type: hostingTypes,
-            tsa_exit_disposition: tsaExitMehotds,
-            sa_policy: tsaExitMehotdsPas,
-            wave_type: waves,
-            rfp_type: rfpTypes,
-            rfp_send_vendor2: rfpSends,
-            rfp_send_vendor3: rfpSends,
-            rfp_send_vendor: rfpSends,
-            development_environment: environmentTypes,
-            test_environment: environmentTypes,
-            production_environment: environmentTypes,
-            core_related: coreOther,
-            release_group:releaseGroup,
-            business_process_area:businessAreas,
-        }
-
-        const list = maps[key]
-
-        // 該当なし → そのまま表示
-        if (!list) return value ?? '-'
-
-        // value → label変換
-        const found = list.find(item => item.value == value)
-
-        return found ? found.label : value
-    }
 </script>
 
 <template>
@@ -418,6 +363,7 @@
                 アプリ台帳
             </h2>
         </template>
+
         <div class="p-6 space-y-8 bg-gray-50 min-h-screen">
             <!-- ================= 基本情報 ================= -->
             <div class="card">
@@ -551,23 +497,17 @@
                 <button @click="exportCsv" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow-sm transition">
                     ⬇ CSV出力
                 </button>
-                <button
-                    @click="search"
-                    class="bg-gradient-to-r from-blue-500 to-blue-600
-                           hover:from-blue-600 hover:to-blue-700
-                           text-white px-6 py-2 rounded-lg shadow transition"
-                >
+                <button @click="search" class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2 rounded-lg shadow transition">
                     🔍 検索
                 </button>
             </div>
-            <!-- ================= 列ON/OFF ================= 
+            <!-- ================= 列ON/OFF ================= -->
             <div class="bg-white p-4 rounded-xl shadow-sm border flex flex-wrap gap-3">
                 <label v-for="col in columns" :key="col.key" class="checkbox">
                     <input type="checkbox" v-model="col.visible">
                     {{ col.label }}
                 </label>
             </div>
-            -->
             <!-- ================= テーブル ================= -->
             <div class="bg-white rounded-2xl shadow border border-gray-200 overflow-x-auto">
                 <table class="min-w-max w-full text-sm">
@@ -575,11 +515,10 @@
                         <tr>
                             <th
                                 v-for="col in columns.filter(c => c.visible)"
-                                @click="sortBy(col.key)"
                                 :key="col.key"
-                                class="px-3 py-2 font-semibold whitespace-nowrap border-b box-border"
+                                class="p-3 font-semibold whitespace-nowrap border-b"
                                 :class="{ 'sticky z-30 bg-gray-100': col.fixed }"
-                                :style="col.fixed ? { left: col.left + 'px', width: col.width + 'px', minWidth: col.width + 'px'} : {}"
+                                :style="col.fixed ? { left: col.left + 'px' } : {}"
                             >
                                 {{ col.label }} {{ getSortIcon(col.key) }}
                             </th>
@@ -590,9 +529,9 @@
                             <td
                                 v-for="col in columns.filter(c => c.visible)"
                                 :key="col.key"
-                                class="px-3 py-2 whitespace-nowrap text-gray-700 box-border"
+                                class="p-3 whitespace-nowrap text-gray-700"
                                 :class="{ 'sticky z-20 bg-white': col.fixed }"
-                                :style="col.fixed ? { left: col.left + 'px', width: col.width + 'px', minWidth: col.width + 'px'} : {}"
+                                :style="col.fixed ? { left: col.left + 'px' } : {}"
                             >
                                 <template v-if="col.key === 'id'">
                                     <Link :href="route('applists.show', row.id)" class="text-blue-600 hover:underline">
@@ -600,7 +539,7 @@
                                     </Link>
                                 </template>
                                 <template v-else>
-                                    {{ getLabel(col.key, row[col.key]) }}
+                                    {{ row[col.key] ?? '-' }}
                                 </template>
                             </td>
                         </tr>
@@ -613,21 +552,27 @@
 </template>
 
 <style scoped>
-.input {
-    @apply w-full border border-gray-300 rounded-lg px-3 py-2
-           focus:ring-2 focus:ring-blue-400 focus:border-blue-400
-           transition;
-}
+    .card {
+        @apply bg-white p-4 rounded shadow;
+    }
 
-.section-title {
-    @apply text-lg font-semibold mb-4 border-l-4 border-blue-500 pl-3;
-}
+    .section-title {
+        @apply font-bold mb-3 border-b pb-1;
+    }
 
-.checkbox {
-    @apply flex items-center gap-2 text-sm text-gray-700 min-w-[180px];
-}
+    .form-item {
+        @apply flex flex-col;
+    }
 
-.checkbox-group {
-    @apply flex flex-wrap gap-x-6 gap-y-2;
-}
+    .input {
+        @apply border rounded px-3 py-2;
+    }
+
+    .checkbox-group {
+        @apply flex flex-wrap gap-4;
+    }
+
+    .btn-primary {
+        @apply bg-blue-500 text-white px-6 py-2 rounded;
+    }
 </style>

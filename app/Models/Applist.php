@@ -38,24 +38,60 @@ class Applist extends Model
     {
         foreach ($filters as $column => $value) {
 
-            if (is_null($value) || $value === '') {
+            // 空は無視
+            if ($value === null || $value === '' || $value === false || $value === []) {
                 continue;
             }
 
-            // 日付系
+            // 配列（複数選択）
+            if (is_array($value)) {
+
+                // 空要素除去
+                $value = array_filter($value, fn($v) => $v !== '' && $v !== null);
+
+                if (empty($value)) {
+                    continue;
+                }
+
+                $query->whereIn($column, $value);
+                continue;
+            }
+
+            // boolean系（チェックボックス）
+            if (in_array($column, ['pas_use','pits_use','pce_use','wavex_judgement'])) {
+
+                if ($value === true || $value == 1) {
+                    $query->where($column, 1);
+                }
+
+                continue;
+            }
+
+            // 日付
             if (str_contains($column, 'date')) {
                 $query->whereDate($column, $value);
                 continue;
             }
 
-            // 数値系
-            if (is_numeric($value)) {
+            $exactMatchColumns = [
+                'rfp_type',
+                'submission',
+                'quote_reception',
+                'quote_review',
+                'quote_draft_seller',
+                'quote_review_seller',
+                'old_management_item',
+                'contracting',
+                'project_kickoff'
+            ];
+
+            if (in_array($column, $exactMatchColumns)) {
                 $query->where($column, $value);
                 continue;
             }
 
-            // それ以外はLIKE検索
-            $query->where($column, 'like', '%' . $value . '%');
+            // 文字列（LIKE）
+            $query->where($column, 'like', "%{$value}%");
         }
 
         return $query;

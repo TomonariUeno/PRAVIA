@@ -2,16 +2,95 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ApplistSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //
+        for ($i = 1; $i <= 50; $i++) {
+            DB::table('applists')->insert([
+                'uuid' => Str::uuid(),
+                'pasj_id' => 'PASJ-' . $i,
+                'system_map_no' => 'SYS-' . rand(1000, 9999),
+                'legal_entity' => 'Entity-' . rand(1, 5),
+                'pas_use' => rand(0, 1),
+                'pits_use' => rand(0, 1),
+                'pce_use' => rand(0, 1),
+                'app_name' => 'App Name ' . $i,
+                'app_description' => 'Description ' . $i,
+                'app_local_name' => 'ローカル名 ' . $i,
+                'app_type' => (string)rand(0, 10),
+                'resource_type' => (string)rand(0, 3),
+                'hosting_type' => (string)rand(0, 3),
+                'tsa_exit_disposition' => (string)rand(0, 9),
+                'app_classification' => (string)rand(0, 2),
+                'wave_type' => (string)rand(0, 9),
+                'wavex_judgement' => (string)rand(0, 1),
+                'business_process_area' => (string)rand(0, 17),
+                'person_in_charge' => '担当者A',
+                'person_in_charge2' => '担当者B',
+                'person_in_charge3' => '担当者C',
+                'sa_policy' => (string)rand(0, 10),
+                'sa_policy_detail' => '詳細 ' . $i,
+                'transfer_method' => (string)rand(0, 9),
+                'brownfield_migration_destination' => 'MigrationApp-' . $i,
+                'policy_decision_status' => 'Status-' . rand(1, 3),
+                'sit_start_date' => now()->subDays(rand(1, 100)),
+                'sit_end_date' => now()->addDays(rand(1, 100)),
+                'golive_date' => now()->addDays(rand(50, 200)),
+                'app_stop_date' => null,
+                'pj_start_date_plan' => now()->subDays(rand(10, 200)),
+                'pj_end_date_plan' => now()->addDays(rand(10, 200)),
+                'pj_start_date_actual' => now()->subDays(rand(10, 200)),
+                'pj_end_date_actual' => now()->addDays(rand(10, 200)),
+                'release_group' => (string)rand(0, 16),
+                'budget_name' => 'Budget-' . $i,
+                'budget_app_group' => 'Group-' . rand(1, 5),
+                'budget_app_id' => 'BID-' . rand(100, 999),
+                'remarks' => '備考 ' . $i,
+                'outsourcing_flag' => (string)rand(0, 1),
+                'outsourcing_level' => (string)rand(1, 3),
+                'major_issuse_related' => '課題' . rand(1, 5),
+                'work_ability' => '能力' . rand(1, 3),
+                'core_related' => (string)rand(0, 1),
+                'tsa_no' => 'TSA-' . rand(1000, 9999),
+                'ams_vendor_pas_recognition' => 'VendorA',
+                'ams_vendor_phd_recognition' => 'VendorB',
+                'rfp_send_vendor' => 'Vendor1',
+                'rfp_send_vendor2' => 'Vendor2',
+                'rfp_type' => rand(0, 1),
+                'submission' => rand(0, 2),
+                'quote_reception' => rand(0, 2),
+                'quote_review' => rand(0, 2),
+                'supplement_rfq' => '補足 ' . $i,
+                'quote_draft_seller' => rand(0, 1),
+                'quote_review_seller' => rand(0, 1),
+                'old_management_item' => rand(0, 1),
+                'development_environment' => 'Dev',
+                'test_environment' => 'Test',
+                'production_environment' => 'Prod',
+                'charter_name' => 'Charter-' . $i,
+                'pas_board_review_date' => now()->subDays(rand(1, 100)),
+                'pas_board_charter_review' => rand(0, 1),
+                'apollo_charter_review_date' => now()->subDays(rand(1, 100)),
+                'apollo_charter_review' => rand(0, 1),
+                'approval_app_submission' => rand(0, 1),
+                'charter_approval_status' => rand(0, 2),
+                'contracting' => rand(0, 1),
+                'project_start_date' => now()->subDays(rand(1, 200)),
+                'project_kickoff' => rand(0, 1),
+                'insert_date' => now(),
+                'insert_user' => 'seeder',
+                'insert_program' => 'ApplistSeeder',
+                'update_date' => now(),
+                'update_user' => 'seeder',
+                'update_program' => 'ApplistSeeder',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
     }
 }

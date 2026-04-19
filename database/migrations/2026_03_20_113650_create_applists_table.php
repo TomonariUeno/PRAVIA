@@ -101,7 +101,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('applists', function (Blueprint $table) {
+        Schema::table('applist', function (Blueprint $table) {
 
             $table->dropSoftDeletes();
 

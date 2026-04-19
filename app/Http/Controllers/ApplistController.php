@@ -95,8 +95,11 @@ class ApplistController extends Controller
             ->search($filters)
             ->select('*')
             ->orderBy($sort,$direction)
-            ->paginate(100)
+            ->paginate(20)
             ->withQueryString();
+            //->paginate(100);
+
+            //dd($applist);
 
         return Inertia::render('Applist/Index',[
             'applist'=>$applist,
